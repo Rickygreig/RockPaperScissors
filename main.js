@@ -1,7 +1,7 @@
 let userScore = document.getElementById("userScore");
 let compScore = document.getElementById("compScore");
 let gameResult= document.getElementById("gameResult");
-let buttonCont = document.getElementById("buttons");
+let imgContainer = document.getElementById("imgs");
 
 let restart = document.createElement("button");
 restart.classList.add("restart");
@@ -14,8 +14,10 @@ restart.addEventListener('click', () => {
 let userScoreCount = 0;
 let compScoreCount= 0;
 
+
+
 // buttons is a node list. It looks and acts much like an array.
-const buttons = document.querySelectorAll("button");
+let imgs = document.querySelectorAll("img");
 
 
 function computerPlay() {
@@ -34,49 +36,78 @@ computerSelection = computerPlay();
         case "rockrock":
         case "paperpaper":
         case "scissorsscissors":
-            return (result =
-            userSelection + " is " + computerSelection + ", you draw");
+            return draw(userSelection);
             break;
         case "rockscissors":
         case "paperrock":
         case "scissorspaper":
-            userScoreCount++;
-            userScore.textContent= "User Score: " + userScoreCount;
-            return (result =
-            userSelection + " beats " + computerSelection + ", you win");
+            return win(userSelection);
             break;
         case "rockpaper":
         case "paperscissors":
         case "scissorsrock":
-            compScoreCount++;
-            compScore.textContent = "Computer Score: " + compScoreCount;
-            return (result =
-            userSelection +
-            " loses to " +
-            computerSelection +
-            ", you lose");
+            return lose(userSelection);
             break;
         }
-          return result;
         }
+
+function draw(userSelection){
+    compScore.textContent=  compScoreCount;
+    userScore.textContent=  userScoreCount;
+    if (userSelection= "rock"){
+        gameResult.textContent= "The Rock cannot beat himself. DRAW!"
+    }
+    else {
+        gameResult.textContent= userSelection + " is " + computerSelection + ", you draw";
+    }
+}
+
+function win(userSelection){
+    userScoreCount++;
+    compScore.textContent= compScoreCount;
+    userScore.textContent=  userScoreCount;
+    if (userSelection== "rock"){
+    gameResult.textContent= "The Rock always WINS in a scissor fight!"
+    }
+    else if (userSelection=="paper"){
+        gameResult.textContent= "Toilet paper smothers the Rock. You WIN!";
+    }
+    else {
+        gameResult.textContent= "Scissors cut up paper. You WIN!"
+    }
+}
+
+function lose(userSelection){
+    compScoreCount++;
+    compScore.textContent=  compScoreCount;
+    userScore.textContent=  userScoreCount;
+    if (userSelection== "rock"){
+        gameResult.textContent= "The Rock gets smothered by toilet paper. You LOSE!"
+    }
+    else if (userSelection=="paper"){
+        gameResult.textContent= "Paper is cut by scissors. You LOSE!";
+    }
+    else {
+        gameResult.textContent= "Scissors are no match against the Rock. You LOSE!"
+    }
+}
  
 function main(){
-    buttons.forEach((button) => {
-        button.addEventListener('click', () => {
-        game(button.id);
-        gameResult.textContent= result;
+    imgs.forEach((img) => {
+        img.addEventListener('click', () => {
+        game(img.id);
         if (userScoreCount==5){
          gameResult.textContent= "Congrats! You Win!";
-        while (buttonCont.firstChild) {
-             buttonCont.removeChild(buttonCont.firstChild);
+        while (imgContainer.firstChild) {
+             imgContainer.removeChild(imgContainer.firstChild);
         }
-        buttonCont.appendChild(restart)
+        imgContainer.appendChild(restart)
         }
         else if (compScoreCount==5){
             gameResult.textContent="You Lose! Try again!";
-            while (buttonCont.firstChild) {
-                buttonCont.removeChild(buttonCont.firstChild);
-        }            buttonCont.appendChild(restart);
+            while (imgContainer.firstChild) {
+                imgContainer.removeChild(imgContainer.firstChild);
+        }            imgContainer.appendChild(restart);
     };
     });
     })}
